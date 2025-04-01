@@ -1,0 +1,10 @@
+torch
+transformers
+datasets
+evaluate
+jiwer
+openai-whisper
+sounddevice
+numpy
+pandas
+scipy

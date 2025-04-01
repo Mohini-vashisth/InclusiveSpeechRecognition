@@ -1,0 +1,19 @@
+# Ignore virtual environment
+venv/
+__pycache__/
+*.pyc
+
+# Ignore model checkpoints
+models/t5_correction_model/*
+
+# Ignore dataset files if they are large
+whisper_correction_data.csv
+
+# Ignore temporary audio files
+temp_audio/
+
+# Ignore log files
+error_log.txt
+
+# Ignore system files
+.DS_Store

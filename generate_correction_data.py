@@ -9,13 +9,13 @@ import logging
 logging.basicConfig(filename='error_log.txt', level=logging.ERROR)
 
 # Load Whisper model
-print("🔁 Loading Whisper model...")
+print(" Loading Whisper model...")
 model = whisper.load_model("base")
 
 # Load TORGO dataset
-print("📥 Loading TORGO dysarthric subset...")
+print(" Loading TORGO dysarthric subset...")
 dataset = load_dataset("abnerh/TORGO-database")
-print("🔎 First few samples:")
+print(" First few samples:")
 for i in range(5):
     print(dataset['train'][i]['speech_status'])
 dataset = dataset['train'].filter(lambda x: x['speech_status'] == 'dysarthria')
@@ -29,7 +29,7 @@ data_pairs = []
 # Directory to store temporary WAV files
 os.makedirs("temp_audio", exist_ok=True)
 
-print("🧠 Running Whisper on samples...")
+print(" Running Whisper on samples...")
 
 for i, sample in tqdm(enumerate(dataset), total=len(dataset)):
     try:
@@ -66,4 +66,4 @@ shutil.rmtree("temp_audio", ignore_errors=True)
 df = pd.DataFrame(data_pairs)
 df.to_csv("whisper_correction_data.csv", index=False)
 
-print("✅ Correction dataset saved as whisper_correction_data.csv")
+print(" Correction dataset saved as whisper_correction_data.csv")

@@ -25,7 +25,7 @@ def correct_text(text):
     return tokenizer.decode(outputs[0], skip_special_tokens=True)
 
 # Evaluate all samples
-print("🔍 Running evaluation...")
+print(" Running evaluation...")
 for _, row in df.iterrows():
     whisper_output = row['whisper_output']
     ground_truth = row['ground_truth']
@@ -38,5 +38,5 @@ for _, row in df.iterrows():
 wer = wer_metric.compute(predictions=preds, references=refs)
 cer = cer_metric.compute(predictions=preds, references=refs)
 
-print(f"✅ WER: {wer:.3f}")
-print(f"✅ CER: {cer:.3f}")
+print(f" WER: {wer:.3f}")
+print(f" CER: {cer:.3f}")

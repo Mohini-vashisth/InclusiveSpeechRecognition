@@ -14,18 +14,18 @@ filename = "recorded_audio.wav"
 
 # ========== DEVICE SETUP ==========
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(f"✅ Using device: {device}")
+print(f" Using device: {device}")
 
 # ========== LOAD MODELS ==========
 try:
-    print("🔁 Loading Whisper...")
+    print(" Loading Whisper...")
     whisper_model = whisper.load_model("base")
 
-    print("🧠 Loading correction model...")
+    print("Loading correction model...")
     tokenizer = T5Tokenizer.from_pretrained("models/t5_correction_model")
     t5_model = T5ForConditionalGeneration.from_pretrained("models/t5_correction_model").to(device)
 except Exception as e:
-    print(f"❌ Error loading models: {e}")
+    print(f" Error loading models: {e}")
     exit()
 
 # ========== RECORD AUDIO ==========
@@ -33,16 +33,16 @@ try:
     print("🎤 Start speaking...")
     recording = sd.rec(int(duration * samplerate), samplerate=samplerate, channels=1, dtype='int16')
     sd.wait()
-    print("✅ Recording finished.")
+    print("Recording finished.")
 except Exception as e:
-    print(f"❌ Error during audio recording: {e}")
+    print(f"Error during audio recording: {e}")
     exit()
 
 # ========== SAVE AUDIO ==========
 try:
     wavfile.write(filename, samplerate, recording)
 except Exception as e:
-    print(f"❌ Error saving audio file: {e}")
+    print(f"Error saving audio file: {e}")
     exit()
 
 # ========== WHISPER TRANSCRIPTION ==========
@@ -50,9 +50,9 @@ try:
     print("🔍 Transcribing with Whisper...")
     result = whisper_model.transcribe(filename)
     raw_text = result["text"].strip()
-    print(f"\n📝 Whisper Output: {raw_text}")
+    print(f"\n Whisper Output: {raw_text}")
 except Exception as e:
-    print(f"❌ Error during Whisper transcription: {e}")
+    print(f" Error during Whisper transcription: {e}")
     os.remove(filename)
     exit()
 
@@ -64,7 +64,7 @@ def correct_text(text):
         outputs = t5_model.generate(input_ids, max_length=64, num_beams=4, early_stopping=True)
         return tokenizer.decode(outputs[0], skip_special_tokens=True)
     except Exception as e:
-        print(f"❌ Error during text correction: {e}")
+        print(f" Error during text correction: {e}")
         return text  # If correction fails, return the original transcription
 
 # Generate corrected text
@@ -75,4 +75,4 @@ print(f"✨ Corrected Transcription: {corrected_text}\n")
 try:
     os.remove(filename)
 except Exception as e:
-    print(f"❌ Error deleting audio file: {e}")
+    print(f" Error deleting audio file: {e}")
